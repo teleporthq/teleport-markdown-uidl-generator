@@ -1,0 +1,40 @@
+{
+  "name": "@teleporthq/teleport-markdown-uidl-generator",
+  "version": "0.0.0",
+  "description": "A package for parsing markdown and generating UIDL",
+  "keywords": [
+    "markdown-uidl"
+  ],
+  "author": "teleportHQ",
+  "homepage": "https://teleporthq.io/packages/teleport-markdown-uidl-generator",
+  "sideEffects": false,
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "jest",
+    "clean": "rimraf dist",
+    "build:cjs": "tsc -p tsconfig-cjs.json",
+    "build:esm": "tsc -p tsconfig-esm.json",
+    "lint": "tslint -c tslint.json 'src/**/*.ts{,x}'",
+    "build": "npm run build:cjs & npm run build:esm",
+    "test:coverage": "npm run test -- --coverage --no-cache"
+  },
+  "dependencies": {
+    "@teleporthq/teleport-types": "^0.10.1",
+    "remark-parse": "^7.0.2",
+    "rimraf": "^3.0.1",
+    "unified": "^8.4.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.18",
+    "@types/node": "^13.5.1",
+    "jest": "^24.9.0",
+    "rimraf": "^3.0.1",
+    "ts-jest": "^24.0.2",
+    "tslint": "^6.0.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.7.5"
+  }
+}
