@@ -1,154 +1,149 @@
-import { UIDLElementNode, UIDLNode } from "@teleporthq/teleport-types";
+import { UIDLElementNode, UIDLNode } from '@teleporthq/teleport-types'
 
 export const generateUIDL = (tree: any, parentNode: UIDLElementNode) => {
   tree.children.forEach((treeNode: any) => {
     switch (treeNode.type) {
-      case "paragraph": {
-        const staticNode = generateHTMLTagNode("textblock");
+      case 'paragraph': {
+        const staticNode = generateHTMLTagNode('textblock')
         if (treeNode.children) {
-          generateUIDL(treeNode, staticNode);
+          generateUIDL(treeNode, staticNode)
         }
-        parentNode.content.children.push(staticNode);
-        return parentNode;
+        parentNode.content.children.push(staticNode)
+        return parentNode
       }
 
-      case "heading": {
-        const headingNode = generateHTMLTagNode(`h${treeNode.depth}`);
+      case 'heading': {
+        const headingNode = generateHTMLTagNode(`h${treeNode.depth}`)
         if (treeNode.children) {
-          generateUIDL(treeNode, headingNode);
+          generateUIDL(treeNode, headingNode)
         }
-        parentNode.content.children.push(headingNode);
-        return parentNode;
+        parentNode.content.children.push(headingNode)
+        return parentNode
       }
 
-      case "link": {
-        const anchorNode = generateAnchorNode(treeNode.url);
-        parentNode.content.children.push(anchorNode);
+      case 'link': {
+        const anchorNode = generateAnchorNode(treeNode.url)
+        parentNode.content.children.push(anchorNode)
         if (treeNode.children) {
-          generateUIDL(treeNode, anchorNode);
+          generateUIDL(treeNode, anchorNode)
         }
-        return parentNode;
+        return parentNode
       }
 
-      case "text": {
-        const textNode = generateStaticTextNode(treeNode.value);
-        parentNode.content.children.push(textNode as UIDLNode);
-        return parentNode;
+      case 'text': {
+        const textNode = generateStaticTextNode(treeNode.value)
+        parentNode.content.children.push(textNode as UIDLNode)
+        return parentNode
       }
 
-      case "code": {
-        const codeBlockNode = generateCustomtNodeWithContent(
-          treeNode.type,
-          `${String(treeNode.value)}`
-        );
-        parentNode.content.children.push(codeBlockNode);
-        return parentNode;
+      case 'code': {
+        const code = '{`' + treeNode.value + '`}'
+        const preBlockNode = generateCustomtNodeWithContent('pre')
+        const codeBlockNode = generateCustomtNodeWithContent(treeNode.type, code)
+        preBlockNode.content.children.push(codeBlockNode)
+        parentNode.content.children.push(preBlockNode)
+        return parentNode
       }
 
-      case "image": {
+      case 'image': {
         const imageNode = generateCustomtNodeWithContent(treeNode.type, null, {
           url: treeNode.url,
-          alt: treeNode.alt
-        });
-        parentNode.content.children.push(imageNode);
-        return parentNode;
+          alt: treeNode.alt,
+        })
+        parentNode.content.children.push(imageNode)
+        return parentNode
       }
 
-      case "html": {
-        const htmlNode = generateCustomtNodeWithContent("span", null, {
-          dangerouslySetInnerHTML: `{{ __html: ${treeNode.value}}}`
-        });
-        parentNode.content.children.push(htmlNode);
-        return parentNode;
+      case 'html': {
+        const htmlNode = generateCustomtNodeWithContent('span', null, {
+          dangerouslySetInnerHTML: `{{ __html: ${treeNode.value}}}`,
+        })
+        parentNode.content.children.push(htmlNode)
+        return parentNode
       }
 
       default: {
-        const defaultNode = generateHTMLTagNode(
-          htmlTagNameMapper(treeNode.type)
-        );
+        const defaultNode = generateHTMLTagNode(htmlTagNameMapper(treeNode.type))
         if (treeNode.children) {
-          generateUIDL(treeNode, defaultNode);
+          generateUIDL(treeNode, defaultNode)
         }
-        parentNode.content.children.push(defaultNode);
-        return parentNode;
+        parentNode.content.children.push(defaultNode)
+        return parentNode
       }
     }
-  });
+  })
 
-  return parentNode;
-};
+  return parentNode
+}
 
 export const generateHTMLTagNode = (tagName: string) => {
   const node: UIDLElementNode = {
-    type: "element",
+    type: 'element',
     content: {
       elementType: tagName,
-      children: []
-    }
-  };
-  return node;
-};
+      children: [],
+    },
+  }
+  return node
+}
 
 const htmlTagNameMapper = (tagType: string) => {
   const elements: Record<string, string> = {
-    heading: "h2",
-    emphasis: "em",
-    listItem: "li"
-  };
-  return elements[tagType] ? elements[tagType] : tagType;
-};
+    heading: 'h2',
+    emphasis: 'em',
+    listItem: 'li',
+    list: 'ul',
+  }
+  return elements[tagType] ? elements[tagType] : tagType
+}
 
 const generateAnchorNode = (target: string) => {
   const node: UIDLElementNode = {
-    type: "element",
+    type: 'element',
     content: {
-      elementType: "link",
+      elementType: 'link',
       attrs: {
         url: {
-          type: "static",
-          content: `${target}`
-        }
+          type: 'static',
+          content: `${target}`,
+        },
       },
-      children: []
-    }
-  };
-  return node;
-};
+      children: [],
+    },
+  }
+  return node
+}
 
-const generateCustomtNodeWithContent = (
-  tagName: string,
-  content?: string,
-  attrs?: any
-) => {
+const generateCustomtNodeWithContent = (tagName: string, content?: string, attrs?: any) => {
   let node: UIDLElementNode = {
-    type: "element",
+    type: 'element',
     content: {
       elementType: `${tagName}`,
       attrs: {},
-      children: []
-    }
-  };
+      children: [],
+    },
+  }
   if (content) {
     node.content.children.push({
-      type: "static",
-      content: `${content}`
-    });
+      type: 'static',
+      content: `${content}`,
+    })
   }
   if (attrs) {
     node = {
       ...node,
       content: {
         ...node.content,
-        attrs
-      }
-    };
+        attrs,
+      },
+    }
   }
-  return node;
-};
+  return node
+}
 
 const generateStaticTextNode = (content: string) => {
   return {
-    type: "static",
-    content: `${content}`
-  };
-};
+    type: 'static',
+    content: `${content}`,
+  }
+}

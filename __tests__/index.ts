@@ -62,4 +62,28 @@ This is pragraph`
     )
     expect(image.content.attrs.alt).toBe('Alt Text')
   })
+
+  it('Parses code block and generates UIDLElementNode', () => {
+    const markdown = `
+prensoque morte videri parentibus in
+perluit utque!
+
+    type = powerGuidSku;
+    edi_definition_bar = commerce;
+    var ppiDigitize = avatarPassive -
+            extranetPcmcia.template.server_wpa_surface(camelcase + malwareSsl,
+            5);
+    if (2 <= truncate.winsock(28, 4, scraping_read_error)) {
+        pup += http_sip + exif_lpi.ppgaMenu(3, 3);
+        floppyFileSoftware += workstationFile + 1 + edutainment;
+    } else {
+        dhcpArrayKerning.quicktime_slashdot -= of_key_search;
+    }
+
+Se tria est deriguere utque scitusque
+`
+    const uidl = generator.parse(markdown)
+
+    expect(uidl.content.children.length).toBe(3)
+  })
 })
