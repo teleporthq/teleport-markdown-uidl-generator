@@ -37,11 +37,8 @@ export const generateUIDL = (tree: any, parentNode: UIDLElementNode) => {
       }
 
       case 'code': {
-        const code = '{`' + treeNode.value + '`}'
-        const preBlockNode = generateCustomtNodeWithContent('pre')
-        const codeBlockNode = generateCustomtNodeWithContent(treeNode.type, code)
-        preBlockNode.content.children.push(codeBlockNode)
-        parentNode.content.children.push(preBlockNode)
+        const rawNode = generateRawNode(`<pre><code>${treeNode.value}</code></pre>`)
+        parentNode.content.children.push(rawNode as UIDLNode)
         return parentNode
       }
 
@@ -55,10 +52,8 @@ export const generateUIDL = (tree: any, parentNode: UIDLElementNode) => {
       }
 
       case 'html': {
-        const htmlNode = generateCustomtNodeWithContent('span', null, {
-          dangerouslySetInnerHTML: `{{ __html: ${treeNode.value}}}`,
-        })
-        parentNode.content.children.push(htmlNode)
+        const rawNode = generateRawNode(`${treeNode.value}`)
+        parentNode.content.children.push(rawNode as UIDLNode)
         return parentNode
       }
 
@@ -144,6 +139,13 @@ const generateCustomtNodeWithContent = (tagName: string, content?: string, attrs
 const generateStaticTextNode = (content: string) => {
   return {
     type: 'static',
+    content: `${content}`,
+  }
+}
+
+const generateRawNode = (content: string) => {
+  return {
+    type: 'raw',
     content: `${content}`,
   }
 }

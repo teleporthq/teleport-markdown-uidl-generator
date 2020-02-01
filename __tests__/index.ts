@@ -83,9 +83,16 @@ perluit utque!
 Se tria est deriguere utque scitusque
 `
     const uidl = generator.parse(markdown)
-    const codeBlockNode = uidl.content.children[1].content as UIDLElement
 
     expect(uidl.content.children.length).toBe(3)
-    expect(codeBlockNode.elementType).toBe('pre')
+    expect(uidl.content.children[1].type).toBe('raw')
+  })
+
+  it('Parses markdown with html in it and generates UIDL Nodes', () => {
+    const markdown = `<h1>Heading inside html tags</h1>`
+    const uidl = generator.parse(markdown)
+
+    expect(uidl.content.children.length).toBe(1)
+    expect(uidl.content.children[0].type).toBe('raw')
   })
 })
