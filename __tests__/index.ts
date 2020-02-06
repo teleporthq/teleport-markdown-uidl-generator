@@ -95,4 +95,64 @@ Se tria est deriguere utque scitusque
     expect(uidl.content.children.length).toBe(1)
     expect(uidl.content.children[0].type).toBe('raw')
   })
+
+  it('Parsers and generates line breaks', () => {
+    const markdown = `
+This is first line with a line break
+
+---
+
+
+This is second line with a line break
+***
+
+This is third Line with a line break
+___
+`
+    const uidl = generator.parse(markdown)
+    const firstLine = uidl.content.children[1].content as UIDLElement
+    const secondLine = uidl.content.children[3].content as UIDLElement
+    const thirdLine = uidl.content.children[5].content as UIDLElement
+
+    expect(uidl.content.children.length).toBe(6)
+    expect(firstLine.elementType).toBe('hr')
+    expect(secondLine.elementType).toBe('hr')
+    expect(thirdLine.elementType).toBe('hr')
+  })
+
+  it('Parses tables from markdown and generates UIDLNodes', () => {
+    const markdown = `
+| Tables        | Are           | Cool  |
+| ------------- |:-------------:| -----:|
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      | centered      |   $12 |
+| zebra stripes | are neat      |    $1 |
+`
+    const uidl = generator.parse(markdown)
+    const table = uidl.content.children[0].content as UIDLElement
+
+    expect(uidl.content.children.length).toBe(1)
+    expect(table.elementType).toBe('table')
+    expect(table.children.length).toBe(4)
+  })
+
+  it('Parses and generates nodes with video links', () => {
+    const markdown = `
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=_oet4GOzcRQ
+" target="_blank"><img src="http://img.youtube.com/vi/_oet4GOzcRQ/0.jpg" 
+alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
+`
+    const uidl = generator.parse(markdown)
+
+    expect(uidl.content.children.length).toBe(1)
+  })
+
+  it('Parses and generates UIDL with blockquotes', () => {
+    const markdown = `> Blockquotes are very handy in email to emulate reply text.`
+    const uidl = generator.parse(markdown)
+    const blockQuote = uidl.content.children[0].content as UIDLElement
+
+    expect(uidl.content.children.length).toBe(1)
+    expect(blockQuote.elementType).toBe('blockquote')
+  })
 })
