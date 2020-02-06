@@ -84,10 +84,12 @@ export const generateHTMLTagNode = (tagName: string) => {
 
 const htmlTagNameMapper = (tagType: string) => {
   const elements: Record<string, string> = {
-    heading: 'h2',
     emphasis: 'em',
     listItem: 'li',
     list: 'ul',
+    thematicBreak: 'hr',
+    tableRow: 'tr',
+    tableCell: 'td',
   }
   return elements[tagType] ? elements[tagType] : tagType
 }
