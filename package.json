@@ -1,6 +1,6 @@
 {
   "name": "@teleporthq/teleport-markdown-uidl-generator",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A package for parsing markdown and generating UIDL",
   "keywords": [
     "markdown-uidl"
