@@ -15,6 +15,10 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/teleporthq/teleport-markdown-uidl-generator"
+  },
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
