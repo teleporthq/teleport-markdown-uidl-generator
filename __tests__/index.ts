@@ -155,4 +155,11 @@ alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10" /></a>
     expect(uidl.content.children.length).toBe(1)
     expect(blockQuote.elementType).toBe('blockquote')
   })
+
+  it('Parses markdown with inline-code elements', () => {
+    const markdown = 'This line consists of a inline ``yarn/npm`` elements'
+    const uidl = generator.parse(markdown)
+
+    expect(uidl.content.children.length).toBe(1)
+  })
 })
