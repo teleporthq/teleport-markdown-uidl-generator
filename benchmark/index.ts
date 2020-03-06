@@ -9,9 +9,9 @@ const run = () => {
     parser.parse(markdown)
     const end = process.hrtime.bigint()
     const time = Math.round(Number(end - start) / 1e6)
-    console.log(`Time elapsed is ${time}ms for cold start`)
+    console.info(`Time elapsed is ${time}ms for cold start`)
   } catch (e) {
-    console.error(e)
+    console.warn(e)
   }
 
   try {
@@ -22,12 +22,12 @@ const run = () => {
       parser.parse(markdown)
       const end = process.hrtime.bigint()
       const time = Math.round(Number(end - start) / 1e6)
-      console.log(`Time taken for ${i}th run is ${time}`)
+      console.info(`Time taken for ${i}th run is ${time}`)
       warmRuns = warmRuns + time
     }
-    console.log(`Time for average of 10 runs is ${warmRuns / 10}`)
+    console.info(`Time for average of 10 runs is ${warmRuns / 10}`)
   } catch (e) {
-    console.error(e)
+    console.warn(e)
   }
 }
 
