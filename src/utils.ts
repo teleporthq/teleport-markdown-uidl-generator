@@ -42,6 +42,12 @@ export const generateUIDL = (tree: any, parentNode: UIDLElementNode) => {
         return parentNode
       }
 
+      case 'inlineCode': {
+        const inlineCodeNode = generateInlineCodeNode(`<code>${treeNode.value}</code>`)
+        parentNode.content.children.push(inlineCodeNode as UIDLNode)
+        return parentNode
+      }
+
       case 'image': {
         const imageNode = generateCustomtNodeWithContent(treeNode.type, null, {
           url: treeNode.url,
@@ -149,5 +155,23 @@ const generateRawNode = (content: string) => {
   return {
     type: 'raw',
     content: `${content}`,
+  }
+}
+
+const generateInlineCodeNode = (content: string) => {
+  return {
+    type: 'element',
+    content: {
+      elementType: 'span',
+      style: {
+        margin: '0px 5px',
+      },
+      children: [
+        {
+          type: 'raw',
+          content,
+        },
+      ],
+    },
   }
 }
