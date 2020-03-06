@@ -23,17 +23,18 @@
     "build:esm": "tsc -p tsconfig-esm.json",
     "lint": "tslint -c tslint.json 'src/**/*.ts{,x}'",
     "build": "npm run build:cjs & npm run build:esm",
-    "test:coverage": "npm run test -- --coverage --no-cache"
+    "test:coverage": "npm run test -- --coverage --no-cache",
+    "upload:coverage": "codecov"
   },
   "dependencies": {
     "@teleporthq/teleport-types": "^0.10.1",
     "remark-parse": "^7.0.2",
-    "rimraf": "^3.0.1",
     "unified": "^8.4.2"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
     "@types/node": "^13.5.1",
+    "codecov": "^3.6.5",
     "jest": "^24.9.0",
     "rimraf": "^3.0.1",
     "ts-jest": "^24.0.2",
