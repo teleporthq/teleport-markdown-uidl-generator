@@ -28,6 +28,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "clean": "rimraf dist",
+    "benchmark": "ts-node ./benchmark/index.ts",
     "build:cjs": "tsc -p tsconfig-cjs.json",
     "build:esm": "tsc -p tsconfig-esm.json",
     "lint": "tslint -p . -c tslint.json",
@@ -41,13 +42,14 @@
     "unified": "^8.4.2"
   },
   "devDependencies": {
+    "ts-node": "^8.6.2",
     "@types/jest": "^24.0.18",
     "@types/node": "^13.5.1",
     "codecov": "^3.6.5",
     "husky": "^4.2.3",
     "jest": "^24.9.0",
-    "pretty-quick": "^2.0.1",
     "prettier": "^1.19.1",
+    "pretty-quick": "^2.0.1",
     "rimraf": "^3.0.1",
     "ts-jest": "^24.0.2",
     "tslint": "^6.0.0",
