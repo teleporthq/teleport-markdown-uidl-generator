@@ -23,6 +23,7 @@
     "node_modules",
     "dist",
     "../__tests__/**/*",
-    "../src/*"
+    "../src/*",
+    "../benchmark/*"
   ]
 }
