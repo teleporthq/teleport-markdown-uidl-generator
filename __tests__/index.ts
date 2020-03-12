@@ -83,7 +83,6 @@ perluit utque!
 Se tria est deriguere utque scitusque
 `
     const uidl = generator.parse(markdown)
-
     expect(uidl.content.children.length).toBe(3)
     expect(uidl.content.children[1].type).toBe('raw')
   })

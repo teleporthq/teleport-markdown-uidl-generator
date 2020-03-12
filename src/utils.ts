@@ -37,13 +37,15 @@ export const generateUIDL = (tree: any, parentNode: UIDLElementNode) => {
       }
 
       case 'code': {
-        const rawNode = generateRawNode(`<pre><code>${treeNode.value}</code></pre>`)
+        const code = '<pre><code>' + '${`' + treeNode.value + '`}' + '</code></pre>'
+        const rawNode = generateRawNode(code)
         parentNode.content.children.push(rawNode as UIDLNode)
         return parentNode
       }
 
       case 'inlineCode': {
-        const inlineCodeNode = generateInlineCodeNode(`<code>${treeNode.value}</code>`)
+        const code = '<pre>' + '${`' + treeNode.value + '`}' + '</pre>'
+        const inlineCodeNode = generateInlineCodeNode(code)
         parentNode.content.children.push(inlineCodeNode as UIDLNode)
         return parentNode
       }
