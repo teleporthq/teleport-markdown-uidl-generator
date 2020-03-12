@@ -37,15 +37,17 @@ export const generateUIDL = (tree: any, parentNode: UIDLElementNode) => {
       }
 
       case 'code': {
-        const code = '<pre><code>' + '${`' + treeNode.value + '`}' + '</code></pre>'
+        /* We don't set ths using dangerouslySetInnerHTML, because if we set them as htmlnodes
+         if the code have any script tags, instead of rendering they 
+         tend to behave as a actual dome nodes */
+        const code = '<code>' + '${`' + treeNode.value + '`}' + '</code>'
         const rawNode = generateRawNode(code)
         parentNode.content.children.push(rawNode as UIDLNode)
         return parentNode
       }
 
       case 'inlineCode': {
-        const code = '<pre>' + '${`' + treeNode.value + '`}' + '</pre>'
-        const inlineCodeNode = generateInlineCodeNode(code)
+        const inlineCodeNode = generateInlineCodeNode(`<pre><code>${treeNode.value}</code></pre>`)
         parentNode.content.children.push(inlineCodeNode as UIDLNode)
         return parentNode
       }
@@ -149,14 +151,22 @@ const generateCustomtNodeWithContent = (tagName: string, content?: string, attrs
 const generateStaticTextNode = (content: string) => {
   return {
     type: 'static',
-    content: `${content}`,
+    content,
   }
 }
 
 const generateRawNode = (content: string) => {
   return {
-    type: 'raw',
-    content: `${content}`,
+    type: 'element',
+    content: {
+      elementType: 'pre',
+      children: [
+        {
+          type: 'static',
+          content,
+        },
+      ],
+    },
   }
 }
 
